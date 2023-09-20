@@ -69,8 +69,8 @@ class UserController extends Controller
             if (User::where('email', $credentials['email'])->exists()) {
 
                 $user = User::where('email', $credentials['email'])
-                ->where('estado', 1)
-                ->first();
+                    ->where('estado', 1)
+                    ->first();
 
                 if ($user->pwd === $credentials['password']) {
                     if ($user && $user->pwd === $credentials['password']) {
@@ -88,22 +88,18 @@ class UserController extends Controller
                             'data' => $userUpdate
                         ], 200);
                     }
-                }else {
+                } else {
                     return response()->json([
-                      'status' => 401,
-                      'message' => 'Credenciales incorrectas'
+                        'status' => 401,
+                        'message' => 'Credenciales incorrectas'
                     ], 401);
                 }
-                
-            }else{
+            } else {
                 return response()->json([
-                  'status' => 401,
-                  'message' => 'Usuario o contraseña incorrectos'
+                    'status' => 401,
+                    'message' => 'Usuario o contraseña incorrectos'
                 ], 401);
             }
-           
-
-            
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -114,14 +110,36 @@ class UserController extends Controller
         $longitud = 50;
 
         return Str::random($longitud);
-        
     }
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        try {
+            $user = User::find($id);
+
+            if ($user) {
+                $response = [
+                    'code' => 200,
+                    'status' => 'success',
+                    'data' => $user,
+                    'message' => 'Usuario encontrado'
+                ];
+
+                return response()->json($response, $response['code']);
+            } else {
+                $response = [
+                    'code' => 404,
+                    'status' => 'error',
+                    'message' => 'Usuario no encontrado'
+                ];
+
+                return response()->json($response, $response['code']);
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
 
@@ -131,7 +149,44 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $user = User::where('id', $id)->exits();
+
+            if ($user) {
+                $usuario = User::where('id', $user->id)
+                    ->update([
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'nombreCompleto' => $request->nombreCompleto,
+                        'apellidos' => $request->apellidos,
+                        'direccion' => $request->direccion,
+                        'pais' => $request->pais,
+                        'ciudad' => $request->ciudad,
+                        'telefono' => $request->telefono,
+                    ]);
+
+                    if ($usuario) {
+                        $response = [
+                            'code' => 200,
+                          'status' =>'success',
+                            'data' => $usuario,
+                          'message' => 'Usuario actualizado'
+                        ];
+
+                        return response()->json($response, $response['code']);
+                    }else {
+                        $response = [
+                            'code' => 404,
+                          'status' => 'error',
+                          'message' => 'Usuario no encontrado'
+                        ];
+
+                        return response()->json($response, $response['code']);
+                    };
+                }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -139,6 +194,32 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $user = User::find($id);
+
+            if ($user) {
+                $user->where('id', $id)->update([
+                    'estado' => 2
+                ]);
+
+                $response = [
+                    'code' => 200,
+                  'status' =>'success',
+                  'message' => 'Usuario eliminado'
+                ];
+
+                return response()->json($response, $response['code']);
+            } else {
+                $response = [
+                    'code' => 404,
+                  'status' => 'error',
+                  'message' => 'Usuario no encontrado'
+                ];
+
+                return response()->json($response, $response['code']);
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

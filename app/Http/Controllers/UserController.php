@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $list = User::all();
+            $list = User::where('estado','1')->get();
 
             $response = [
                 'code' => 200,
@@ -192,14 +192,15 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
         try {
-            $user = User::find($id);
+            $user = User::find($request->id);
 
             if ($user) {
-                $user->where('id', $id)->update([
-                    'estado' => 2
+
+                $user->where('id', $request->id)->update([
+                    'estado' => '0'
                 ]);
 
                 $response = [

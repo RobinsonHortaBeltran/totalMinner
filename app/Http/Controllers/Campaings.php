@@ -13,7 +13,7 @@ class Campaings extends Controller
     public function index()
     {
         try {
-            $list = Campaing::all();
+            $list = Campaing::where('estado','1')->get();
 
             $response = [
                 'code' => 200,
@@ -34,6 +34,7 @@ class Campaings extends Controller
      */
     public function store(Request $request, Campaing $campaing)
     {
+       
         try {
             $campaing->fill($request->all());
             $campaing->save();
@@ -105,7 +106,7 @@ class Campaings extends Controller
             $campaing = Campaing::find($id);
 
             Campaing::where('id', $id)->update([
-                'estado' => 0
+                'estado' => '0'
             ]);
 
             $response = [
@@ -117,6 +118,29 @@ class Campaings extends Controller
             return response()->json($response, $response['code']);
         } catch (\Throwable $th) {
             throw $th;
+        }
+    }
+
+    public function upload(Request $request){
+        // Verifica si se ha enviado un archivo
+        if ($request->hasFile('file')) {
+            // Obtiene el archivo del request
+            $file = $request->file('file');
+
+            // Define la ubicación de almacenamiento
+            $path = storage_path('app/public/uploads');
+
+            // Genera un nombre único para el archivo
+            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+
+            // Mueve el archivo a la ubicación de almacenamiento
+            $file->move($path, $fileName);
+
+            // Devuelve una respuesta de éxito
+            return response()->json(['message' => 'Archivo cargado con éxito']);
+        } else {
+            // Devuelve una respuesta de error si no se proporciona un archivo
+            return response()->json(['error' => 'No se proporcionó ningún archivo'], 400);
         }
     }
 }

@@ -26,7 +26,7 @@ Route::prefix('users')->group(function () {
     Route::get('ver/{id}',       [UserController::class, 'showAll']);
     Route::post('/new',          [UserController::class, 'store']);
     Route::put('put/{id}',       [UserController::class, 'update']);
-    Route::delete('delete/{id}', [UserController::class, 'destroy']);
+    Route::post('delete',        [UserController::class, 'destroy']);
     Route::post('login',         [UserController::class, 'login']);
 
 });
@@ -38,4 +38,6 @@ Route::prefix('campaing')->group(function () {
     Route::post('/new',          [Campaings::class, 'store']);
     Route::put('put/{id}',       [Campaings::class, 'update']);
     Route::delete('delete/{id}', [Campaings::class, 'destroy']);
+    Route::post('/upload',       [Campaings::class, 'upload']);
+
 });

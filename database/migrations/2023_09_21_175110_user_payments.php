@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('id_user')->nullable();
             $table->string('monto')->unique();
             $table->string('codigoCamp')->nullable();
-            $table->timestamp('img')->nullable();
+            $table->string('img')->nullable();
             $table->enum('estado', ['0', '1'])->default('0');
             
             $table->timestamps();

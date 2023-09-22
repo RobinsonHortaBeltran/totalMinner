@@ -49,8 +49,8 @@ class UserController extends Controller
                 "status" => 200
             ];
 
-            $correo = new TuCorreoMailable($request);
-            Mail::to("developperhorta@gmail.com")->send($correo);
+            // $correo = new TuCorreoMailable($request);
+            // Mail::to("developperhorta@gmail.com")->send($correo);
             return response()->json($response, 200);
         } else {
             return response()->json([

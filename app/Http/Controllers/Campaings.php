@@ -121,26 +121,4 @@ class Campaings extends Controller
         }
     }
 
-    public function upload(Request $request){
-        // Verifica si se ha enviado un archivo
-        if ($request->hasFile('file')) {
-            // Obtiene el archivo del request
-            $file = $request->file('file');
-
-            // Define la ubicación de almacenamiento
-            $path = storage_path('app/public/uploads');
-
-            // Genera un nombre único para el archivo
-            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
-
-            // Mueve el archivo a la ubicación de almacenamiento
-            $file->move($path, $fileName);
-
-            // Devuelve una respuesta de éxito
-            return response()->json(['message' => 'Archivo cargado con éxito']);
-        } else {
-            // Devuelve una respuesta de error si no se proporciona un archivo
-            return response()->json(['error' => 'No se proporcionó ningún archivo'], 400);
-        }
-    }
 }

@@ -69,7 +69,7 @@ class UserController extends Controller
             if (User::where('email', $credentials['email'])->exists()) {
 
                 $user = User::where('email', $credentials['email'])
-                    ->where('estado', 1)
+                    ->where('estado', '1')
                     ->first();
 
                 if ($user->pwd === $credentials['password']) {

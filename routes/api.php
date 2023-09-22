@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Campaings;
+use App\Http\Controllers\UserPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,4 +41,7 @@ Route::prefix('campaing')->group(function () {
     Route::delete('delete/{id}', [Campaings::class, 'destroy']);
     Route::post('/upload',       [Campaings::class, 'upload']);
 
+});
+Route::prefix('file')->group(function () {
+    Route::post('/upload',       [UserPaymentController::class, 'upload']);
 });

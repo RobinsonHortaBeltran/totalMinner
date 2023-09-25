@@ -17,4 +17,9 @@ class UserPayment extends Model
         'img',
         'estado',
     ];
+
+    public function usuarios()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id');
+    }
 }

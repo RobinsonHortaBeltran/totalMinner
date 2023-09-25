@@ -44,4 +44,5 @@ Route::prefix('campaing')->group(function () {
 });
 Route::prefix('file')->group(function () {
     Route::post('/upload',       [UserPaymentController::class, 'upload']);
+    Route::get('/index',       [UserPaymentController::class, 'index']);
 });

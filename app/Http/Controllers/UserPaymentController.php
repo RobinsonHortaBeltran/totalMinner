@@ -12,7 +12,20 @@ class UserPaymentController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $list = UserPayment::with('usuarios')->get();
+            $response = [
+                'code' => 200,
+                'status' => 'success',
+                'data' => $list,
+                'message' => 'Listado generado con exito'
+            ];
+
+            return response()->json($response, $response['code']);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        
     }
 
     /**

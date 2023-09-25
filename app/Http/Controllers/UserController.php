@@ -63,7 +63,7 @@ class UserController extends Controller
     public function login(Request $request, User $user)
     {
         try {
-            //return $request;
+            return $request;
             $credentials = $request->only('email', 'password');
 
             if (User::where('email', $credentials['email'])->exists()) {
@@ -71,7 +71,7 @@ class UserController extends Controller
                 $user = User::where('email', $credentials['email'])
                     ->where('estado', '1')
                     ->first();
-
+//cambios de pruebas
                 if ($user->pwd === $credentials['password']) {
                     if ($user && $user->pwd === $credentials['password']) {
                         $token = $this->generarCodigoAleatorio();
